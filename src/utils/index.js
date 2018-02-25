@@ -1,31 +1,46 @@
+const getOffset = (length, index) => {
+    return length === index + 1 ? 0 : 3;
+};
 
 const getHeight = (hwList, width) => {
-    const hwStroke = hwList.reduce((acc, hw) => {
-        acc += hw.width/hw.height;
+    const hwStroke = hwList.reduce((acc, hw, index) => {
+        const offset = getOffset(hw.length, index);
+
+        acc += (hw.width + offset) / hw.height;
 
         return acc;
     }, 0);
 
-    return width/hwStroke;
+    return width / hwStroke;
 };
+
 const buildRow = (hwList, width) => {
     let height = 0;
 
     while (height < 250) {
-        height = getHeight(hwList, width);
+        height = getHeight(hwList.slice(0, 8), width);
         if (height < 250) {
             hwList.pop()
         }
     }
 
     return hwList.map((hw) => {
-        if (height > 400) {
-            return hw;
+        if (height > 420) {
+            return {
+                ...hw,
+                box: {
+                    height: hw.height,
+                    width: hw.width,
+                }
+            }
         }
 
         return {
-            height,
-            width: hw.width * height / hw.height
+            ...hw,
+            box: {
+                height,
+                width: hw.width * height / hw.height
+            }
         };
     });
 };
