@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
-import { getGeometry } from '../utils/index';
+import getGridGeometry from '../gridGeometry';
 import imgs from '../data/imgs.json';
 
 console.time('flick');
-const imgsStroke = getGeometry(imgs, 1200);
+const imgsStroke = getGridGeometry(
+    imgs,
+    { containerWidth: '1200' },
+);
 console.timeEnd('flick');
 
 const thousand = new Array(1000);
@@ -39,18 +42,22 @@ class Gallery extends Component {
                     style={{
                         display: "flex",
                         justifyContent: "space-between",
-                        marginTop: "3px",
+                        marginTop: "20px",
+                        // marginRight: "3px",
                     }}
                 >
                     {row.map((item, index) => {
                     const { box } = item;
                     return <div
                         style={{
-                            // marginRight: row.length === index + 1 ? '0' : '5px',
+	                        backgroundImage: `url(${item.src})`,
+	                        backgroundSize: 'cover',
+	                        backgroundPosition: 'center center',
                             backgroundColor: colors[i++],
                             display: "inline-block",
                             height: `${box.height}px`,
                             width: `${box.width}px`,
+	                        // marginRight: row.length === index + 1 ? "0" : "20px",
                         }}
                     />
                 })}
