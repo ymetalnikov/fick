@@ -2,17 +2,6 @@ import { pathOr } from './ramdash';
 
 const MAX_HEIGHT = 420;
 const MIN_HEIGHT = 250;
-const MIN_WIDTH = 220;
-
-const getOffset = (length, index) => (length === index + 1 ? 0 : 3);
-const getSafeWidth = (width) => width < MIN_WIDTH ? MIN_WIDTH : width;
-
-const getHWStroke = (h, w) => {
-	const widthStroke = getSafeWidth(w);
-	const heightStroke = widthStroke * h / w;
-
-	return { heightStroke, widthStroke }
-};
 
 const getHeight = (hwList, width) => {
 	const hwStroke = hwList.reduce((acc, hw) => {
@@ -104,11 +93,11 @@ const scale = (hw) => {
 		};
 	}
 
-	if (height / width > 2.5) {
+	if (height / width > 2) {
 		// ...scale
 		return {
 			height,
-			width: 220, // ~ 300x100
+			width: height / 2, // ~ 300x100
 		};
 	}
 
